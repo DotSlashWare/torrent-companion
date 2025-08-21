@@ -1,4 +1,6 @@
 from typing import Tuple
+
+import httpx
 from .common_types import ScrapperType
 
 
@@ -15,13 +17,20 @@ class BaseScrapper:
         if is_authenticated:
             self.authenticate()
 
+    @staticmethod
     def build_url(template: str, **kwargs) -> str:
+        """Build a URL from a template and keyword arguments."""
         return template.format(**kwargs)
-
-    def test_connection(self) -> bool:
-        """Test the connection to the indexer."""
-        return True
 
     def authenticate(self) -> None:
         """Authenticate with the indexer if required."""
-        pass
+        raise NotImplementedError("Subclasses should implement this method.")
+
+    def test_connection(self) -> bool:
+        """Test the connection to the indexer."""
+        response = httpx.get(self.base_url)
+        return response.status_code == 200
+
+    async def aync_test_connection(self) -> bool:
+        """Test the connection to the indexer."""
+        raise NotImplementedError("Subclasses should implement this method.")

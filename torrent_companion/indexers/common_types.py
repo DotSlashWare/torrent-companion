@@ -2,24 +2,24 @@ from enum import Enum
 
 
 class IndexerType(Enum):
-    PUBLIC = "public"
-    PRIVATE = "private"
+    PUBLIC = "PUBLIC"
+    PRIVATE = "PRIVATE"
 
 
 class IndexerGenre(Enum):
-    MOVIES = "movies"
-    ANIME = "anime"
-    GAMES = "games"
-    TV_SHOWS = "tv_shows"
+    MOVIES = "MOVIES"
+    ANIME = "ANIME"
+    GAMES = "GAMES"
+    TV_SHOWS = "TV_SHOWS"
 
 
 class IndexerHealth(Enum):
-    HEALTHY = "healthy"
-    UNHEALTHY = "unhealthy"
-    UNKNOWN = "unknown"
+    HEALTHY = "HEALTHY"
+    UNHEALTHY = "UNHEALTHY"
+    UNKNOWN = "UNKNOWN"
 
 
 class ScrapperType(Enum):
-    STATIC = "static"
-    BROWSER = "browser"
-    API = "api"
+    STATIC = "STATIC"
+    BROWSER = "BROWSER"
+    API = "API"
