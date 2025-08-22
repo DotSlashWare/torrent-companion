@@ -2,14 +2,14 @@ from datetime import datetime
 from typing import List
 import httpx
 import logging
-from torrent_companion.indexers.common_models import BaseUploaderProfile
 from torrent_companion.indexers.common_types import ScrapperType
 from torrent_companion.indexers.base_scrapper import BaseScrapper
 from torrent_companion.indexers.definitions.piratebay.types import PirateBayCategory
 from torrent_companion.indexers.definitions.piratebay.models import (
-    DetailedPBTorrentData,
+    DetailedPBTorrentData, 
     PBTorrentData,
     PBTorrentSearchResponse,
+    PBUploaderProfile,
 )
 
 logger = logging.getLogger(__name__)
@@ -120,7 +120,7 @@ class PirateBayScrapper(BaseScrapper):
 
     async def get_uploader_profile(
         self, username: str, read_pages: int = 5
-    ) -> BaseUploaderProfile:
+    ) -> PBUploaderProfile:
         """Get profile information about an uploader by their username. Used for analysis."""
         url = self.build_url(self.uploader_pages_url, username=username)
         response = await self.request_client.get(url)
@@ -191,8 +191,8 @@ class PirateBayScrapper(BaseScrapper):
         average_leechers_per_upload = total_leechers / (len(torrents_data) or 1)
         recent_activity = max(torrent.added_date for torrent in torrents_data)
         fetched_at = datetime.now().isoformat()
-        
-        return BaseUploaderProfile(
+
+        return PBUploaderProfile(
             name=username,
             total_pages=read_pages,
             total_seeders=total_seeders,

@@ -4,6 +4,8 @@ from pydantic import BaseModel
 class BaseUploaderProfile(BaseModel):
     """Base model for uploader profile (used for analysis)."""
     name: str
+    rating: float = 0.0
+    plataform: str
     total_pages: int
     total_seeders: int
     total_leechers: int
@@ -19,7 +21,7 @@ class BaseTorrentData(BaseModel):
     """Base model for torrent data."""
 
     name: str
-    uploader: BaseUploaderProfile
+    uploader: str
     size: int  # in bytes
     leechers: int
     seeders: int

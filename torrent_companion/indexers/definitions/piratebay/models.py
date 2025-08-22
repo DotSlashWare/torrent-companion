@@ -1,7 +1,10 @@
 from pydantic import BaseModel
 
-from torrent_companion.indexers.common_models import BaseTorrentData, BaseTorrentSearchResponse
+from torrent_companion.indexers.common_models import BaseTorrentData, BaseTorrentSearchResponse, BaseUploaderProfile
 from torrent_companion.indexers.definitions.piratebay.types import PirateBayCategory
+
+class PBUploaderProfile(BaseUploaderProfile):
+    plataform: str = "Pirate Bay"
 
 class DetailedPBTorrentData(BaseTorrentData):
     """Detailed model for Pirate Bay torrent data."""

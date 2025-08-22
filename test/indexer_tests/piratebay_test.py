@@ -55,7 +55,7 @@ async def test_search_piratebay():
     
     for result in response.results:
         assert result.id is not None
-        assert result.username is not None
+        assert result.uploader is not None
         assert result.status is not None
         assert isinstance(result.category, int)
         
