@@ -9,7 +9,6 @@ class IndexerType(Enum):
 class IndexerGenre(Enum):
     MOVIES = "MOVIES"
     ANIME = "ANIME"
-    GAMES = "GAMES"
     TV_SHOWS = "TV_SHOWS"
 
 

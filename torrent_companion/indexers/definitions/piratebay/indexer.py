@@ -10,7 +10,7 @@ class PirateBayIndexer(BaseIndexer):
             description="A popular torrent indexer known for its vast collection of torrents.",
             idxtype=IndexerType.PUBLIC,
             language="en",
-            genres=(IndexerGenre.MOVIES, IndexerGenre.TV_SHOWS, IndexerGenre.GAMES),
+            genres=(IndexerGenre.MOVIES, IndexerGenre.TV_SHOWS),
             scrapper=PirateBayScrapper(),
             _job_timer_override=_job_timer_override,
         )

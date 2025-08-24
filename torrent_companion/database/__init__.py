@@ -1,41 +1,19 @@
-import os
-import sqlite3
 import logging
-from typing import List
 
-from torrent_companion.indexers.base_indexer import BaseIndexer
+from torrent_companion.database.handler import DBHandler
 
 logger = logging.getLogger(__name__)
 
 
-class DatabaseHandler:
+class Database:
     def __init__(self):
-        self.filepath = os.environ.get("DB_FILEPATH", "/var/profiling/database.db")
-        self.conn = sqlite3.connect(self.filepath, check_same_thread=False, timeout=10)
-
-    def __del__(self):
-        if self.conn:
-            self.conn.close()
-    
-    def create_table(self, table_name: str, columns: List[str]):
-        """Create a table if it does not exist."""
-        cursor = self.conn.cursor()
-        columns_str = ", ".join(columns)
-        cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_str})")
-        self.conn.commit()
-    
-    def insert(self, table_name: str, data: dict):
-        """Insert data into a table."""
-        cursor = self.conn.cursor()
-        columns = ", ".join(data.keys())
-        placeholders = ", ".join("?" for _ in data)
-        cursor.execute(f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})", tuple(data.values()))
-        self.conn.commit()
-    
-    def table_setup(self):
-        """Create necessary tables if they do not exist."""
-        self.create_table(
-            "uploader_profiles",
+        self.handler = DBHandler()
+        
+        self.setup_tables()
+        
+    def setup_tables(self):
+        self.handler.create_table(
+            "uploaders",
             [
                 "id INTEGER PRIMARY KEY AUTOINCREMENT",
                 "name TEXT NOT NULL",
@@ -52,9 +30,23 @@ class DatabaseHandler:
             ]
         )
         
-        self.create_table(
-            "best_torrent_cache",
+        self.handler.create_table(
+            "torrents",
             [
-                
+                "id INTEGER PRIMARY KEY AUTOINCREMENT",
+                "uploader_id INTEGER NOT NULL REFERENCES uploaders(id) ON DELETE CASCADE",
+                "content_type TEXT NOT NULL CHECK (content_type IN ('movie','episode'))",
+                "keywords TEXT NOT NULL",
+                "title TEXT NOT NULL",
+                "info_hash TEXT NOT NULL UNIQUE",
+                "size INTEGER NOT NULL",
+                "source TEXT DEFAULT 'Unknown'",
+                "quality TEXT DEFAULT 'Unknown'",
+                "language TEXT DEFAULT 'Unknown'",
+                "episode_number INTEGER",
+                "season_number INTEGER",
+                "added_date TEXT NOT NULL",
+                "magnet_url TEXT NOT NULL",
+                "scrapped_at TEXT NOT NULL",
             ]
         )

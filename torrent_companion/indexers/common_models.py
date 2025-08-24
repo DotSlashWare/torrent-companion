@@ -1,8 +1,10 @@
+from typing import Literal
 from pydantic import BaseModel
 
 
 class BaseUploaderProfile(BaseModel):
     """Base model for uploader profile (used for analysis)."""
+
     name: str
     rating: float = 0.0
     plataform: str
@@ -23,11 +25,19 @@ class BaseTorrentData(BaseModel):
     name: str
     uploader: str
     size: int  # in bytes
-    leechers: int
-    seeders: int
-    info_hash: str
-    magnet_link: str
+    content_type: Literal["movie", "episode"]
+    keywords: str  # search keywords used to find the torrent
+    source: str = "Unknown"  # e.g., PirateBay, 1337x
+    quality: str = "Unknown"  # e.g., 1080p, 720p
+    language: str = "Unknown"  # e.g., English, Spanish
+    leechers: int  # only used in analysis (not to be saved)
+    seeders: int  # only used in analysis (not to be saved)
+    info_hash: str # torrent info hash
+    magnet_link: str # magnet link (based on info hash)
     added_date: str  # should be in iso format
+    
+    episode_number: int | None = None
+    season_number: int | None = None
 
 
 class BaseTorrentSearchResponse(BaseModel):

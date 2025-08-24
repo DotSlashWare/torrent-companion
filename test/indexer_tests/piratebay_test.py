@@ -10,7 +10,7 @@ def test_piratebay_scrapper_initialization():
 
     assert s.base_url == "https://apibay.org"
 
-    assert s.search_url == "https://apibay.org/q.php?q={query}"
+    assert s.search_url == "https://apibay.org/q.php?q={query}&cat={category}"
     assert s.torrent_info == "https://apibay.org/t.php?id={id}"
     assert s.file_info_url == "https://apibay.org/f.php?id={id}"
     assert s.magnet_url == "magnet:?xt=urn:btih:{hash}"
@@ -24,7 +24,6 @@ def test_piratebay_indexer_initialization():
     assert indexer.language == "en"
     assert IndexerGenre.MOVIES in indexer.genres
     assert IndexerGenre.TV_SHOWS in indexer.genres
-    assert IndexerGenre.GAMES in indexer.genres
     
 def test_health_check_job_initialization():
     indexer = PirateBayIndexer()
