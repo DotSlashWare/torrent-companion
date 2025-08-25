@@ -52,3 +52,4 @@ class BaseTorrentSearchResponse(BaseModel):
     query: str
     results: list[BaseTorrentData]
     total_results: int
+    error: str | None = None
